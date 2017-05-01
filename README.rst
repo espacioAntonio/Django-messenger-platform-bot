@@ -1,13 +1,13 @@
-=====
+===============================
 Facebook Messenger Bot : fbbot
-=====
+===============================
 
 fbbot is a simple Django app to showcasing the Messenger Platform, make your facebook bot with django
 
 Quick start
------------
+------------
 
-0. If yo don't have a https server and domain. For development purposes I use NGROK, a good "Secure tunnels to localhost" service ( url:https://ngrok.com/ )::
+Note. If yo don't have a https server and domain. For development purposes I use NGROK, a good "Secure tunnels to localhost" service ( url:https://ngrok.com/ )::
 
    > Download ngrok binary https://ngrok.com/download
    > execute ./ngrok http 8000
@@ -26,6 +26,7 @@ Quick start
     REAL_URL = "URL_PROVIDED_BY_NGROK" #example: 12346578.ngrok.io or www.yourdomain.com
 
 3. Run::
+
     python manage.py runserver 8000
 
 4. Suscribe your new webhook in your Facebook App::
@@ -52,15 +53,11 @@ Quick start
     account linking
 
 Integrate this app with your Django App
------------
+----------------------------------------
 
 1. Install the django-fbbot package with python-pip::
 
     pip install django-fbbot
-
-1.1. If you want to uninstall this package run::
-
-    pip uninstall django-fbbot
 
 2. Add your valid tokens in your settings file mysite/settings.py::
 
@@ -68,8 +65,6 @@ Integrate this app with your Django App
     FB_VERIFY_TOKEN = "VERIFY_TOKEN_DEFINED_BY_DEVELOPER"
     REAL_URL = "URL_PROVIDED_FOR_NGROK" #example: 12346578.ngrok.io or www.yourdomain.com
     BASE_URL = "https://"+REAL_URL
-
-CONFIGURE YOUR DJANGO APP
 
 3. Add "fbbot" to your INSTALLED_APPS setting like this::
 
@@ -102,3 +97,21 @@ CONFIGURE YOUR DJANGO APP
     typing on
     typing off
     account linking
+
+Uninstall
+--------------------------------------------
+
+1. If you want to uninstall this package run::
+
+    pip uninstall django-fbbot
+
+2. Remove "fbbot" in your INSTALLED_APPS setting::
+
+    INSTALLED_APPS = [
+        ...
+        'fbbot',
+    ]
+
+3. Remove the fbbot URLconf in your project urls.py::
+
+    url(r'^fbbot/', include('fbbot.urls')),

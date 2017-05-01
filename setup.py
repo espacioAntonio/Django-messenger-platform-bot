@@ -33,8 +33,8 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-        'Topic :: Internet :: WWW/HTTPS',
-        'Topic :: Internet :: WWW/HTTPS :: Dynamic Content',
-        'Topic :: Chatbot :: Internet :: WWW/HTTPS :: Webhook',
+        'Development Status :: 3 - Alpha',
+        'Topic :: Communications :: Chat',
+        'Topic :: Internet :: WWW/HTTP :: WSGI',
     ],
 )
