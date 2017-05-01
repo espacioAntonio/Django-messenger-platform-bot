@@ -1,0 +1,4 @@
+include LICENSE
+include README.rst
+include requeriments.txt
+recursive-include fbbot/static *
