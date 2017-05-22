@@ -56,58 +56,74 @@ class Bot:
       #pprint(message)
       #pprint(received_message)
       isEcho = received_message['is_echo'] if 'is_echo' in received_message else False
-      appId = received_message['app_id'] if 'app_id' in received_message else ""
-      metadata = received_message['metadata'] if 'metadata' in received_message else ""
       messageAttachments = received_message['attachments'] if 'attachments' in received_message else False
-      messageId = received_message['mid'] if 'mid' in received_message else ""
       messageText = received_message['text'] if 'text' in received_message else False
-      quickReply = message['quick_reply'] if 'quick_reply' in message else False
+      quickReply = received_message['quick_reply'] if 'quick_reply' in received_message else False
    
       if isEcho:
-         pprint("Received echo for message "+messageId+" and app "+appId+" with metadata "+metadata)
+         self.receivedMessageEcho(received_message)
          return
    
       elif quickReply:
-         quickReplyPayload = quickReply['payload']
-         pprint("Quick reply for message "+messageId+" with payload "+quickReplyPayload)
-         self.sendTextMessage(senderID, "Quick reply tapped")
+         self.receivedMessageQuickReply(received_message,senderID)
          return
    
       if messageText:
-         if messageText == 'image':
-            self.sendImageMessage(senderID,"fbbot/python.png")
-         elif messageText == 'gif':
-            self.sendGifMessage(senderID,"fbbot/falling_down.gif")
-         elif messageText == 'audio':
-            self.sendAudioMessage(senderID,"fbbot/sample.mp3")
-         #elif messageText == 'video':
-         #   sendVideoMessage(senderID,"fbbot/animal.mp4")
-         elif messageText == 'file':
-            self.sendFileMessage(senderID,"fbbot/test.txt")
-         elif messageText == 'button':
-            self.sendButtonMessage(senderID)
-         elif messageText == 'generic':
-            self.sendGenericMessage(senderID)
-         elif messageText == 'receipt':
-            self.sendReceiptMessage(senderID)
-         elif messageText == 'quick reply':
-            self.sendQuickReply(senderID)
-         elif messageText == 'read receipt':
-            self.sendReadReceipt(senderID)
-         elif messageText == 'typing on':
-            self.sendTypingOn(senderID)
-         elif messageText == 'typing off':
-            self.sendTypingOff(senderID)
-         elif messageText == 'account linking':
-            self.sendAccountLinking(senderID)
-         else:
-            self.sendTextMessage(senderID, messageText)
+         self.receivedMessageText(messageText,senderID)
       elif messageAttachments:
-         self.sendTextMessage(senderID, "Message with attachment received")
+         self.receivedMessageAttachments(senderID)
+
+   def receivedMessageEcho(self,received_message):
+      appId = received_message['app_id'] if 'app_id' in received_message else ""
+      metadata = received_message['metadata'] if 'metadata' in received_message else ""
+      messageId = received_message['mid'] if 'mid' in received_message else ""
+      pprint("Received echo for message "+messageId+" and app "+appId+" with metadata "+metadata)
+
+   def receivedMessageQuickReply(self,received_message,senderID):
+      messageId = received_message['mid'] if 'mid' in received_message else ""
+      quickReply = received_message['quick_reply'] if 'quick_reply' in received_message else False
+      quickReplyPayload = quickReply['payload']
+      pprint("Quick reply for message "+messageId+" with payload "+quickReplyPayload)
+      self.sendTextMessage(senderID, "Quick reply tapped")
+
+   def receivedMessageAttachments(self,messageAttachments,senderID):
+      self.sendTextMessage(senderID, "Message with attachment received")
+
+   def receivedMessageText(self,messageText,senderID):
+      if messageText == 'image':
+         self.sendImageMessage(senderID,"fbbot/python.png")
+      elif messageText == 'gif':
+         self.sendGifMessage(senderID,"fbbot/falling_down.gif")
+      elif messageText == 'audio':
+         self.sendAudioMessage(senderID,"fbbot/sample.mp3")
+      #elif messageText == 'video':
+      #   sendVideoMessage(senderID,"fbbot/animal.mp4")
+      elif messageText == 'file':
+         self.sendFileMessage(senderID,"fbbot/test.txt")
+      elif messageText == 'button':
+         self.sendButtonMessage(senderID)
+      elif messageText == 'generic':
+         self.sendGenericMessage(senderID)
+      elif messageText == 'receipt':
+         self.sendReceiptMessage(senderID)
+      elif messageText == 'quick reply':
+         self.sendQuickReply(senderID)
+      elif messageText == 'read receipt':
+         self.sendReadReceipt(senderID)
+      elif messageText == 'typing on':
+         self.sendTypingOn(senderID)
+      elif messageText == 'typing off':
+         self.sendTypingOff(senderID)
+      elif messageText == 'account linking':
+         self.sendAccountLinking(senderID)
+      else:
+         self.sendTextMessage(senderID, messageText)
+
 
    def receivedDeliveryConfirmation(self,message):
       #senderID = message['sender']['id']
       #recipientID = message['recipient']['id']
+      pprint(message)
       delivery = message['delivery']
       messageIDs = delivery['mids']
       watermark = delivery['watermark']
