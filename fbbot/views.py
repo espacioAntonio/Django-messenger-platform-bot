@@ -8,7 +8,7 @@ from pprint import pprint
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from bot import Bot
+from .bot import Bot
 
 # Creating a Bot
 myBot = Bot(settings.FB_PAGE_TOKEN, settings.BASE_URL)
